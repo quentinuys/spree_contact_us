@@ -29,14 +29,6 @@ module Spree
         end
       end
 
-      def save
-        if self.valid?
-          GeneralMailer.contact_us(self.email, self.message).deliver_now!
-          return true
-        end
-        return false
-      end
-
       def persisted?
         false
       end
