@@ -2,16 +2,9 @@ class Spree::ContactUs::ContactsController < Spree::StoreController
 
   helper "spree/products"
   def create
-    @contact = Spree::ContactUs::Contact.new(params[:contact_us_contact])
-
-    if @contact.save
-      if Spree::ContactUs::Config.contact_tracking_message.present?
-        flash[:contact_tracking] = Spree::ContactUs::Config.contact_tracking_message
-      end
-      redirect_to(spree.root_path, :notice => Spree.t('contact_us.notices.success'))
-    else
-      redirect_to '/contact-us'
-    end
+    @contact = params[:contact_us_contact]
+    GeneralMailer.contact_us(@contact["email"], @contact["message"]).deliver_now!
+    redirect_to(spree.root_path, :notice => Spree.t('contact_us.notices.success'))
   end
 
   def new
