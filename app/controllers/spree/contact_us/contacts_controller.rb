@@ -10,7 +10,7 @@ class Spree::ContactUs::ContactsController < Spree::StoreController
       end
       redirect_to(spree.root_path, :notice => Spree.t('contact_us.notices.success'))
     else
-      render :new
+      redirect_to '/contact-us'
     end
   end
 
